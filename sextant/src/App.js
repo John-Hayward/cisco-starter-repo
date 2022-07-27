@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 
@@ -6,8 +6,9 @@ class Banner extends React.Component{
   render() {
     const title = "Sextant User Info";
 
+
     return( 
-      <div className="Title">
+      <div className="App-banner">
         {title}
       </div>
     )
@@ -15,16 +16,41 @@ class Banner extends React.Component{
 }
 
 function Exhibit(props) {
+  const [ipshown, setipshown] = useState(false)
+
+
+  
+
   return (
-    <div className="exhibit">
-      <h1 className="Exhibit-Title">
-        {props.title}
-      </h1>
-      <div className="components">
+    <div className="exhibit" >
+      <button className="exhibit-button"
+      onMouseEnter={() => setipshown(true)}
+      onMouseLeave={() => setipshown(false)}>
+      {props.title}
+      </button>
+
+    {ipshown && (
+      <div>
         {props.component}
       </div>
-    </div>
+    )}
+  </div>
   )
+}
+
+function Ipcollector(prop) {
+
+  var ipaddress;
+
+
+  if (prop=="ipv4"){
+    ipaddress="ipv4"
+  } else {
+    ipaddress="ipv6"
+  }
+
+  return(ipaddress)
+  
 }
 
 
@@ -35,12 +61,14 @@ function App() {
         <Banner />
       </div>
 
-      <div className="exhibit 1">
-        <Exhibit title={"Exhibit title"} component={"Exhibit component"}/>
-      </div>
+      <div class="App-box">
+        <div className="App-exhibit">
+          <Exhibit title={"Ipv4 address"} component={Ipcollector("ipv4")}/>
+        </div>
 
-      <div className="exhibit 2">
-        <Exhibit title={"Exhibit 2 title"} component={"Exhibit 2 component"}/>
+        <div className="App-exhibit">
+          <Exhibit title={"Ipv6 address"} component={Ipcollector("ipv6")}/>
+        </div>
       </div>
     </div>
   );

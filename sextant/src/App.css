@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+
+.App-banner {
+  background-color: #666699;
+  min-height: 10vh;
+  font-size: 8vh;
+  align-items: left;
+  justify-content: left;
+  color: white;
+  flex-direction: column;
+  text-align: left;
+}
+
+.App-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100px;
+}
+
+.App-box>div {
+  flex: 1;
+  font-size:xx-large;
+}
+.exhibit-button {
+  height: 50px;
+  width: fit-content;
+  font-size: xx-large;
+}
+
+.App-exhibit {
+  border-style: double;
+}
