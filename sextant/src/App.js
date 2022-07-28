@@ -56,6 +56,35 @@ class Ipcollector extends Component {
 
 }
 
+class LatencyFinder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      latency: null,
+    };
+  }
+
+  componentDidMount() {
+    var W3CWebSocket = require('websocket').w3cwebsocket;
+
+    var client = new W3CWebSocket('ws://localhost:55455')
+
+    client.onmessage = function(e) {
+      var currenttime = Date.now()
+      var latent=currenttime-e.data;
+      this.setState({latency: latent})
+    }.bind(this)
+  }
+
+  render() {
+    return (
+      <span className="latencydisplay">
+        {this.state.latency}
+      </span>
+    )
+  }
+
+}
 
 function App() {
   return (
@@ -76,7 +105,13 @@ function App() {
             <Ipcollector url="https://api64.ipify.org?format=json"/>
           </Exhibit>
         </div>
+
+        <div className="App-box">
+          <Exhibit title={"Latency/ms"}>
+            <LatencyFinder/>
+          </Exhibit>
         </div>
+      </div>
     </div>
   );
 }
