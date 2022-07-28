@@ -16,7 +16,7 @@ class Banner extends React.Component{
 }
 
 function Exhibit(props) {
-  const [ipshown, setipshown] = useState(false)
+  const [ipshown, setipshown] = useState(true)
 
 
   
@@ -24,33 +24,38 @@ function Exhibit(props) {
   return (
     <div className="exhibit" >
       <button className="exhibit-button"
-      onMouseEnter={() => setipshown(true)}
-      onMouseLeave={() => setipshown(false)}>
+      onClick={() => setipshown(!ipshown)}
+      >
       {props.title}
       </button>
 
-    {ipshown && (
+    {
       <div>
         {props.component}
       </div>
-    )}
+    }
   </div>
   )
 }
 
 function Ipcollector(prop) {
 
-  var ipaddress;
-
+   var url;
+   let ipaddress;
+  
 
   if (prop=="ipv4"){
-    ipaddress="ipv4"
+    url="https://api.ipify.org?format=json"
   } else {
-    ipaddress="ipv6"
+    url="https://api64.ipify.org?format=json"
   }
 
-  return(ipaddress)
   
+  fetch(url)
+    .then(response => response.json())
+    .then(data => console.log(data))
+  
+  return("test")  
 }
 
 
@@ -61,7 +66,7 @@ function App() {
         <Banner />
       </div>
 
-      <div class="App-box">
+      <div className="App-box">
         <div className="App-exhibit">
           <Exhibit title={"Ipv4 address"} component={Ipcollector("ipv4")}/>
         </div>
