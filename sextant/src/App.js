@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import './App.css';
 
 
@@ -15,47 +15,45 @@ class Banner extends React.Component{
   }
 }
 
-function Exhibit(props) {
-  const [ipshown, setipshown] = useState(true)
+class Exhibit extends Component {
 
-
-  
-
-  return (
-    <div className="exhibit" >
-      <button className="exhibit-button"
-      onClick={() => setipshown(!ipshown)}
-      >
-      {props.title}
-      </button>
-
-    {
-      <div>
-        {props.component}
+  render() {
+    return (
+      <div className='App-exhibit'>
+        <button className='exhibit-button'>
+          {this.props.title}
+        </button>
+        <div className='exhibit-content'>
+          {this.props.children}
+        </div>
       </div>
-    }
-  </div>
-  )
+    );
+  }
 }
 
-function Ipcollector(prop) {
-
-   var url;
-   let ipaddress;
-  
-
-  if (prop=="ipv4"){
-    url="https://api.ipify.org?format=json"
-  } else {
-    url="https://api64.ipify.org?format=json"
+class Ipcollector extends Component {
+  constructor(props) {
+    super(props);
+    this.state ={
+      url: props.url,
+      ipAddress: null,
+    }
   }
 
-  
-  fetch(url)
-    .then(response => response.json())
-    .then(data => console.log(data))
-  
-  return("test")  
+  componentDidMount() {
+    fetch(this.state.url)
+      .then(response => response.json())
+      .then(data => this.setState({ ipAddress: data.ip}));
+  }
+
+  render() {
+    return (
+      <span className="ipdisplay">
+        {this.state.ipAddress}
+      </span>
+    )
+  }
+
 }
 
 
@@ -67,14 +65,18 @@ function App() {
       </div>
 
       <div className="App-box">
-        <div className="App-exhibit">
-          <Exhibit title={"Ipv4 address"} component={Ipcollector("ipv4")}/>
+        <div className="App-box">
+          <Exhibit title={"Ipv4 address"}>
+            <Ipcollector url="https://api.ipify.org?format=json"/>
+          </Exhibit>
         </div>
 
-        <div className="App-exhibit">
-          <Exhibit title={"Ipv6 address"} component={Ipcollector("ipv6")}/>
+        <div className="App-box">
+          <Exhibit title={"Ipv6 address"}>
+            <Ipcollector url="https://api64.ipify.org?format=json"/>
+          </Exhibit>
         </div>
-      </div>
+        </div>
     </div>
   );
 }
